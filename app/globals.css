@@ -28,3 +28,11 @@ layer utilities {
     text-wrap: balance;
   }
 }
+
+h2 {
+  text-align: center;
+}
+
+footer {
+  text-align: center;
+}

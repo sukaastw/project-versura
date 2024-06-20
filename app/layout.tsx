@@ -1,8 +1,9 @@
 import React, { ReactNode } from 'react';
 import './globals.css';
 import Header from './header';
+import Footer from './footer';
 export const metadata = {
-  title: "Home",
+  title: "Beranda",
   description: "General by create app",
 }
 
@@ -16,7 +17,7 @@ const RootLayout: React.FC<RootLayoutProps> = ({ children }) => {
       <body>
         <Header />
         <main>{children}</main>
-        <footer>© 2024 MyApp</footer>
+        <footer />
       </body>
     </html>
   );
