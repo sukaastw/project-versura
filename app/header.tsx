@@ -14,7 +14,7 @@ const Header = () => {
             <Link href="/">Beranda</Link>
           </li>
           <li>
-            <Link href="/about">Periode Iuran</Link>
+            <Link href="/pembayaran">Pembayaran</Link>
           </li>
         </ul>
       </nav>
