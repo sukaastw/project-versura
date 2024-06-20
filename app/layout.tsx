@@ -1,6 +1,10 @@
 import React, { ReactNode } from 'react';
 import './globals.css';
 import Header from './header';
+export const metadata = {
+  title: "Home",
+  description: "General by create app",
+}
 
 interface RootLayoutProps {
   children: ReactNode;
