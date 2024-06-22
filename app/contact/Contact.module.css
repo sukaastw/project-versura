@@ -1,0 +1,27 @@
+.container {
+    max-width: 600px;
+    margin: 20px auto; /* Atur margin untuk menjauhkan dari header */
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: black;
+  }
+  
+  .contactItem {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px; /* Lebih besar untuk memberi ruang antar item */
+  }
+  
+  .icon {
+    margin-right: 10px;
+  }
+  
+  /* Perbesar teks untuk label */
+  .contactItem a {
+    font-size: 18px; /* Ukuran font yang lebih kecil */
+    font-weight: bold;
+    text-decoration: none; /* Menghilangkan garis bawah pada tautan */
+    color: white; /* Warna teks */
+  }
+  

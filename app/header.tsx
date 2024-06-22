@@ -16,6 +16,9 @@ const Header = () => {
           <li>
             <Link href="/pembayaran">Pembayaran</Link>
           </li>
+          <li>
+            <Link href="/contact">Contact</Link>
+          </li>
         </ul>
       </nav>
     </header>
