@@ -1,35 +1,57 @@
 /* components/Header.module.css */
+
 .header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 1rem 2rem;
-    background-color: #333;
-    color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  background-color: #333;
+  color: white;
+}
+
+.logo a {
+  color: white;
+  text-decoration: none;
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.nav {
+  display: flex;
+  gap: 1rem;
+  align-items: center; /* Menjadikan item menu di tengah secara vertikal */
+}
+
+.nav ul {
+  list-style: none;
+  display: flex;
+  gap: 1rem;
+  margin: 0;
+  padding: 0;
+}
+
+.nav a {
+  color: white;
+  text-decoration: none;
+  font-size: 1rem;
+}
+
+.nav a:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 768px) {
+  .header {
+    flex-direction: column; /* Mengubah ke flex-direction column untuk mobile */
+    padding: 1rem; /* Mengurangi padding pada header untuk mobile */
+    text-align: center; /* Memusatkan konten pada mobile */
   }
-  
+
+  .nav {
+    margin-top: 1rem; /* Memberikan margin atas untuk menu pada mobile */
+  }
+
   .logo a {
-    color: white;
-    text-decoration: none;
-    font-size: 1.5rem;
-    font-weight: bold;
+    font-size: 1.2rem; /* Menyesuaikan ukuran font logo untuk mobile */
   }
-  
-  .nav ul {
-    list-style: none;
-    display: flex;
-    gap: 1rem;
-    margin: 0;
-    padding: 0;
-  }
-  
-  .nav a {
-    color: white;
-    text-decoration: none;
-    font-size: 1rem;
-  }
-  
-  .nav a:hover {
-    text-decoration: underline;
-  }
-  
+}

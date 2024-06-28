@@ -1,121 +1,135 @@
+/* styles.module.css */
+
 .container {
-    font-family: Arial, sans-serif;
-    line-height: 1.6;
-    background-color: grey;
-  }
-  
-  .header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background-color: black;
-    padding: 1rem 2rem;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  }
-  
-  
-  .header nav ul {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    display: flex;
-  }
-  
-  .header nav ul li {
-    margin-right: 1rem;
-  }
-  
-  .header nav ul li a {
-    text-decoration: none;
-    color: #333;
-    font-weight: bold;
-  }
-  
+  font-family: Arial, sans-serif;
+  line-height: 1.6;
+  background-color: grey;
+  padding-bottom: 3rem; /* Menambahkan padding bawah agar footer tidak menutupi konten */
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: black;
+  padding: 1rem 2rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.header nav ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+}
+
+.header nav ul li {
+  margin-right: 1rem;
+}
+
+.header nav ul li a {
+  text-decoration: none;
+  color: #333;
+  font-weight: bold;
+}
+
+.main {
+  display: flex;
+  flex-direction: column; /* Mengubah ke flex-direction column agar layout tetap rapi */
+  align-items: center; /* Memusatkan konten secara vertikal */
+  padding: 2rem;
+}
+
+.intro {
+  max-width: 100%; /* Mengubah max-width agar intro mengambil lebar penuh pada semua perangkat */
+  text-align: center; /* Memusatkan teks di tengah pada semua perangkat */
+}
+
+.intro h1 {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+}
+
+.intro p {
+  font-size: 1.2rem;
+  margin-bottom: 1.5rem;
+}
+
+.intro button {
+  padding: 0.5rem 1rem;
+  background-color: #28a745;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.intro button:hover {
+  background-color: blue;
+}
+
+.formSection {
+  background-color: #112222;
+  padding: 2rem;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  max-width: 400px;
+  width: 100%; /* Mengubah agar formSection mengambil lebar penuh pada semua perangkat */
+  margin-bottom: 2rem; /* Menambahkan margin bawah agar tidak terlalu rapat dengan footer */
+}
+
+.formSection h2 {
+  margin-bottom: 1rem;
+  color: #fff; /* Menambahkan warna teks untuk h2 */
+}
+
+.formSection label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: bold;
+  color: #fff; /* Menambahkan warna teks untuk label */
+}
+
+.formSection input, .formSection select {
+  width: 100%;
+  padding: 0.5rem;
+  margin-bottom: 1rem;
+  border: 1px solid black;
+  border-radius: 5px;
+  color: black;
+}
+
+.formSection button {
+  width: 100%;
+  padding: 0.5rem;
+  background-color: #6f42c1;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.formSection button:hover {
+  background-color: #563d7c;
+}
+
+.footer {
+  background-color: #333;
+  color: #fff;
+  text-align: center;
+  padding: 1rem;
+  position: fixed;
+  width: 100%;
+  bottom: 0;
+}
+
+@media (min-width: 768px) {
   .main {
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    padding: 2rem;
+    flex-direction: row; /* Mengubah kembali ke flex-direction row untuk desktop */
+    justify-content: space-around; /* Memusatkan formSection secara horizontal pada desktop */
   }
-  
+
   .intro {
-    max-width: 50%;
+    max-width: 50%; /* Mengembalikan max-width intro untuk desktop */
   }
-  
-  .intro h1 {
-    font-size: 2.5rem;
-    margin-bottom: 1rem;
-  }
-  
-  .intro p {
-    font-size: 1.2rem;
-    margin-bottom: 1.5rem;
-  }
-  
-  .intro button {
-    padding: 0.5rem 1rem;
-    background-color: #28a745;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-  }
-  
-  .intro button:hover {
-    background-color: blue;
-  }
-  
-  .formSection {
-    background-color: #112222;
-    padding: 2rem;
-    border-radius: 10px;
-    box-shadow: 0 2px 4px black(0, 0, 0, 0.1);
-    max-width: 400px;
-  }
-  
-  .formSection h2 {
-    margin-bottom: 1rem;
-  }
-  
-  .formSection label {
-    display: block;
-    margin-bottom: 0.5rem;
-    font-weight: bold;
-  }
-  
-  .formSection input, .formSection select {
-    width: 100%;
-    padding: 0.5rem;
-    margin-bottom: 1rem;
-    border: 1px solid black;
-    border-radius: 5px;
-    color: black;
-  }
-  
-  .formSection button {
-    width: 100%;
-    padding: 0.5rem;
-    background-color: #6f42c1;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-  }
-  
-  .formSection button:hover {
-    background-color: #563d7c;
-  }
-  
-  .footer {
-    background-color: #333;
-    color: #fff;
-    text-align: center;
-    padding: 1rem;
-    position: fixed;
-    width: 100%;
-    bottom: 0;
-  }
-  .a {
-    color: blue;
-  }
-  
+}

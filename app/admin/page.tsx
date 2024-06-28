@@ -1,83 +1,144 @@
 'use client';
-import { useState, useEffect } from 'react';
-import { collection, getDocs } from 'firebase/firestore';
-import { db } from '../db/firebase';
+import React, { useEffect, useState } from 'react';
+import { db, storage } from '../db/firebase';
+import { collection, getDocs, deleteDoc, doc } from 'firebase/firestore';
+import { ref, deleteObject } from 'firebase/storage';
+import './adminpage.css';
 
-interface PaymentData {
+interface UserData {
   id: string;
-  nama: string;
+  name: string;
+}
+
+interface Payment {
   bulan: string;
-  tanggalBayar: string;
-  dokumenUrl: string;
+  date: string;
+  fileName: string;
+  filePath: string;
 }
 
 const AdminPage: React.FC = () => {
-  const [data, setData] = useState<PaymentData[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [users, setUsers] = useState<UserData[]>([]);
+  const [payments, setPayments] = useState<Payment[]>([]);
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        console.log('Fetching data from Firebase...');
-        const querySnapshot = await getDocs(collection(db, 'payments'));
-        const paymentsData: PaymentData[] = [];
-        querySnapshot.forEach((doc) => {
-          paymentsData.push({ id: doc.id, ...doc.data() } as PaymentData);
-        });
-        console.log('Data fetched:', paymentsData);
-        setData(paymentsData);
-        setLoading(false);
-      } catch (error) {
-        console.error('Error fetching data:', error);
-        setLoading(false); // Set loading to false even on error
-      }
-    };
-
-    fetchData();
+    fetchUsers();
+    fetchPayments();
   }, []);
 
-  if (loading) {
-    return (
-      <div className="flex justify-center items-center h-screen">
-        <div className="text-xl text-black">Loading...</div>
-      </div>
-    );
-  }
+  const fetchUsers = async () => {
+    try {
+      const usersRef = collection(db, 'Users');
+      const querySnapshot = await getDocs(usersRef);
+      const usersData: UserData[] = [];
+
+      querySnapshot.forEach((doc) => {
+        const userData: UserData = {
+          id: doc.data().id,
+          name: doc.data().name,
+        };
+        usersData.push(userData);
+      });
+
+      setUsers(usersData);
+    } catch (error) {
+      console.error('Error fetching users: ', error);
+    }
+  };
+
+  const fetchPayments = async () => {
+    try {
+      const paymentsRef = collection(db, 'Payments');
+      const querySnapshot = await getDocs(paymentsRef);
+      const paymentsData: Payment[] = [];
+
+      querySnapshot.forEach((doc) => {
+        const paymentData: Payment = {
+          bulan: doc.data().bulan,
+          date: doc.data().date,
+          fileName: doc.data().file_name,
+          filePath: doc.data().file_path,
+        };
+        paymentsData.push(paymentData);
+      });
+
+      setPayments(paymentsData);
+    } catch (error) {
+      console.error('Error fetching payments: ', error);
+    }
+  };
+
+  const handleValidatePayment = async (fileName: string) => {
+    try {
+      const paymentRef = doc(db, 'Payments', fileName);
+      await deleteDoc(paymentRef);
+
+      const storageRef = ref(storage, `payments/${fileName}`);
+      await deleteObject(storageRef);
+
+      setPayments((prevPayments) =>
+        prevPayments.filter((payment) => payment.fileName !== fileName)
+      );
+
+      alert('Pembayaran telah divalidasi dan file telah dihapus.');
+    } catch (error) {
+      console.error('Error validating payment: ', error);
+    }
+  };
 
   return (
-    <div className="container mx-auto p-4">
-      <h1 className="text-2xl font-bold mb-4 text-black">Admin Page</h1>
-      <table className="min-w-full bg-white border border-gray-200">
-        <thead>
-          <tr>
-            <th className="py-2 px-4 border-b text-black">Nama</th>
-            <th className="py-2 px-4 border-b text-black">ID</th>
-            <th className="py-2 px-4 border-b text-black">Bulan</th>
-            <th className="py-2 px-4 border-b text-black">Tanggal Bayar</th>
-            <th className="py-2 px-4 border-b text-black">Dokumen</th>
-          </tr>
-        </thead>
-        <tbody>
-          {data.map((item) => (
-            <tr key={item.id}>
-              <td className="py-2 px-4 border-b text-black">{item.nama}</td>
-              <td className="py-2 px-4 border-b text-black">{item.id}</td>
-              <td className="py-2 px-4 border-b text-black">{item.bulan}</td>
-              <td className="py-2 px-4 border-b text-black">{item.tanggalBayar}</td>
-              <td className="py-2 px-4 border-b text-black">
-                <a
-                  href={item.dokumenUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-blue-500 hover:underline"
-                >
-                  Lihat Dokumen
-                </a>
-              </td>
+    <div>
+      <h1>Halaman Admin</h1>
+      <div className="table-responsive">
+        <table className="table">
+          <thead>
+            <tr>
+              <th>ID Pengguna</th>
+              <th>Nama Pengguna</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {users.map((user, index) => (
+              <tr key={index}>
+                <td>{user.id}</td>
+                <td>{user.name}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <h2>Daftar Pembayaran</h2>
+      <div className="table-responsive">
+        <table className="table">
+          <thead>
+            <tr>
+              <th>Bulan</th>
+              <th>Tanggal</th>
+              <th>Nama Pengguna</th>
+              <th>File</th>
+              <th>Aksi</th>
+            </tr>
+          </thead>
+          <tbody>
+            {payments.map((payment, index) => (
+              <tr key={index}>
+                <td>{payment.bulan}</td>
+                <td>{payment.date}</td>
+                <td>
+                  <a href={payment.filePath} target="_blank" rel="noopener noreferrer">
+                    {payment.fileName}
+                  </a>
+                </td>
+                <td>
+                  <button onClick={() => handleValidatePayment(payment.fileName)}>
+                    Validasi Pembayaran
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 };

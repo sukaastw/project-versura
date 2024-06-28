@@ -2,15 +2,9 @@
 'use client';
 import { useState } from 'react';
 import { db } from './db/firebase'; // Sesuaikan path berdasarkan struktur proyek Anda
-import {
-  collection,
-  query,
-  where,
-  getDocs,
-  DocumentData,
-} from 'firebase/firestore';
-import Header from './header';
-import Footer from './footer';
+import { collection, query, where, getDocs } from 'firebase/firestore';
+import Header from './header'; // Sesuaikan path berdasarkan struktur proyek Anda
+import Footer from './footer'; // Sesuaikan path berdasarkan struktur proyek Anda';
 import styles from './styles.module.css';
 
 const Pembayaran = () => {
@@ -22,19 +16,28 @@ const Pembayaran = () => {
     event.preventDefault();
 
     try {
-      // Query untuk mencari pembayaran sesuai ID dan bulan
-      const paymentsRef = collection(db, 'Payments');
-      const q = query(paymentsRef, where('user_id', '==', id), where('bulan', '==', bulan));
-      const querySnapshot = await getDocs(q);
+      // Query untuk mencari user berdasarkan ID
+      const usersRef = collection(db, 'Users');
+      const userQuery = query(usersRef, where('id', '==', id));
+      const userSnapshot = await getDocs(userQuery);
 
-      if (querySnapshot.empty) {
+      if (userSnapshot.empty) {
+        setPaymentStatus('User tidak ditemukan');
+        return;
+      }
+
+      // Mengambil ID user dari hasil query
+      const userDoc = userSnapshot.docs[0];
+      const userId = userDoc.id;
+
+      // Query untuk mencari pembayaran berdasarkan ID user dan bulan
+      const paymentsRef = collection(db, 'Payments');
+      const paymentQuery = query(paymentsRef, where('bulan', '==', bulan));
+      const paymentSnapshot = await getDocs(paymentQuery);
+
+      if (paymentSnapshot.empty) {
         setPaymentStatus('Belum bayar');
       } else {
-        const paymentsData: DocumentData[] = [];
-        querySnapshot.forEach((doc) => {
-          paymentsData.push(doc.data());
-        });
-        console.log('Hasil query:', paymentsData);
         setPaymentStatus('Anda sudah bayar');
       }
     } catch (error) {
@@ -52,14 +55,14 @@ const Pembayaran = () => {
         </section>
         <section className={styles.formSection}>
           <h2>Cek Pembayaran</h2>
-          <form onSubmit={handleFormSubmit}>
+          <form onSubmit={handleFormSubmit} className={styles.form}>
             <label htmlFor="id">ID</label>
             <input
               type="text"
               id="id"
               value={id}
               onChange={(e) => setId(e.target.value)}
-              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+              className={styles.input}
               required
             />
             <label htmlFor="bulan">Bulan</label>
@@ -67,7 +70,7 @@ const Pembayaran = () => {
               id="bulan"
               value={bulan}
               onChange={(e) => setBulan(e.target.value)}
-              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+              className={styles.select}
               required
             >
               <option value="">Pilih Bulan</option>
@@ -84,14 +87,11 @@ const Pembayaran = () => {
               <option value="November">November</option>
               <option value="Desember">Desember</option>
             </select>
-            <button
-              type="submit"
-              className="w-full mt-4 py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-            >
+            <button type="submit" className={styles.button}>
               Cek Pembayaran
             </button>
           </form>
-          {paymentStatus && <p className="mt-4">{paymentStatus}</p>}
+          {paymentStatus && <p className={styles.paymentStatus}>{paymentStatus}</p>}
           <p>Jika terdapat kesalahan, silahkan hubungi <a href="mailto:msuka5641@gmail.com">Admin Website</a> atau dapat melalui Email Kami</p>
         </section>
       </main>

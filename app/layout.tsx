@@ -3,7 +3,7 @@ import './globals.css';
 import Header from './header';
 import Footer from './footer';
 export const metadata = {
-  title: "Beranda",
+  title: "VERSURA",
   description: "General by create app",
 }
 
