@@ -1,8 +1,14 @@
 // pages/pembayaran.tsx
 'use client';
 import { useState } from 'react';
-import { db } from './db/firebase';// Sesuaikan path berdasarkan struktur proyek Anda
-import { collection, query, where, getDocs } from 'firebase/firestore';
+import { db } from './db/firebase'; // Sesuaikan path berdasarkan struktur proyek Anda
+import {
+  collection,
+  query,
+  where,
+  getDocs,
+  DocumentData,
+} from 'firebase/firestore';
 import Header from './header';
 import Footer from './footer';
 import styles from './styles.module.css';
@@ -24,6 +30,11 @@ const Pembayaran = () => {
       if (querySnapshot.empty) {
         setPaymentStatus('Belum bayar');
       } else {
+        const paymentsData: DocumentData[] = [];
+        querySnapshot.forEach((doc) => {
+          paymentsData.push(doc.data());
+        });
+        console.log('Hasil query:', paymentsData);
         setPaymentStatus('Anda sudah bayar');
       }
     } catch (error) {
@@ -35,7 +46,7 @@ const Pembayaran = () => {
   return (
     <div className={styles.container}>
       <main className={styles.main}>
-      <section className={styles.intro}>
+        <section className={styles.intro}>
           <h1>Sistem Pembayaran Terintegrasi</h1>
           <p>VERSURA merupakan sebuah aplikasi yang digunakan untuk pengintegrasian dalam mengirim dan mengecek pembayaran iuran.</p>
         </section>
