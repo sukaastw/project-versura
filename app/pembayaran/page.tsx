@@ -1,7 +1,7 @@
 import Form from './pembayaran';
 
 export const metadata = {
-  title: "Beranda",
+  title: "Pembayaran",
   description: "General by create app",
 }
 
